@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Shield, TrendingUp, DollarSign, Clock, User, CreditCard } from 'lucide-react';
+import { Shield, TrendingUp, DollarSign, Clock, User, CreditCard, CheckCircle } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
 import { usePaymentContext } from '../hooks/usePaymentContext';
+import { LoadingButton } from '../components/UI/LoadingSpinner';
+import FormField, { Input, Select } from '../components/UI/FormField';
+import TrustBadge, { CreditScoreBadge } from '../components/UI/TrustBadge';
 
 const BorrowPage = () => {
   const { user, isConnected, isVerified, creditScore } = useUser();
@@ -52,10 +55,18 @@ const BorrowPage = () => {
   if (!isConnected) {
     return (
       <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Shield className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Connect Your Wallet</h2>
-          <p className="text-gray-600 mb-8">Please connect your wallet to start the borrowing process.</p>
+        <div className="text-center animate-fade-in-up">
+          <div className="bg-gradient-to-br from-primary-100 to-primary-200 rounded-full p-6 w-24 h-24 mx-auto mb-6 flex items-center justify-center shadow-soft">
+            <Shield className="h-12 w-12 text-primary-600" />
+          </div>
+          <h2 className="text-section-title text-gray-900 mb-4">Connect Your Wallet</h2>
+          <p className="text-gray-600 mb-8 max-w-md mx-auto leading-relaxed">
+            Please connect your wallet to start the borrowing process and access our secure lending platform.
+          </p>
+          <div className="flex justify-center gap-3">
+            <TrustBadge type="security" />
+            <TrustBadge type="encrypted" />
+          </div>
         </div>
       </div>
     );
@@ -64,21 +75,39 @@ const BorrowPage = () => {
   if (loanSubmitted) {
     return (
       <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <div className="bg-green-100 rounded-full p-4 w-16 h-16 mx-auto mb-6 flex items-center justify-center">
-            <TrendingUp className="h-8 w-8 text-green-600" />
+        <div className="text-center animate-fade-in-up">
+          <div className="bg-gradient-to-br from-success-100 to-success-200 rounded-full p-6 w-24 h-24 mx-auto mb-6 flex items-center justify-center shadow-soft animate-bounce-gentle">
+            <CheckCircle className="h-12 w-12 text-success-600" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Loan Request Submitted!</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-section-title text-gray-900 mb-4">Loan Request Submitted!</h2>
+          <p className="text-gray-600 mb-8 max-w-lg mx-auto leading-relaxed">
             Your loan request has been submitted successfully. You'll be notified when lenders show interest.
           </p>
-          <div className="bg-white p-6 rounded-lg border border-gray-200 max-w-md mx-auto">
-            <h3 className="font-semibold text-gray-900 mb-2">Next Steps:</h3>
-            <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Lenders will review your verified profile</li>
-              <li>• You'll receive funding offers within 24-48 hours</li>
-              <li>• Smart contract will be deployed upon acceptance</li>
-            </ul>
+          
+          <div className="bg-white p-8 rounded-xl shadow-soft border border-success-200 max-w-lg mx-auto mb-6">
+            <h3 className="font-semibold text-gray-900 mb-4 flex items-center justify-center">
+              <Clock className="w-5 h-5 mr-2 text-primary-600" />
+              Next Steps
+            </h3>
+            <div className="space-y-3 text-left">
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="w-5 h-5 text-success-500 mt-0.5" />
+                <span className="text-sm text-gray-600">Lenders will review your verified profile</span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <Clock className="w-5 h-5 text-warning-500 mt-0.5" />
+                <span className="text-sm text-gray-600">You'll receive funding offers within 24-48 hours</span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <Shield className="w-5 h-5 text-primary-500 mt-0.5" />
+                <span className="text-sm text-gray-600">Smart contract will be deployed upon acceptance</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex justify-center gap-3">
+            <TrustBadge type="verified" text="Request Verified" />
+            <TrustBadge type="security" text="Secure Process" />
           </div>
         </div>
       </div>
