@@ -20,13 +20,17 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white shadow-lg">
+    <header className="bg-white shadow-soft backdrop-blur-sm sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <TrendingUp className="h-8 w-8 text-primary-600" />
-              <span className="text-2xl font-bold text-gray-900">LendX</span>
+            <Link to="/" className="flex items-center space-x-2 group">
+              <div className="bg-gradient-to-br from-primary-500 to-primary-600 p-2 rounded-xl shadow-soft group-hover:shadow-medium transition-all duration-200">
+                <TrendingUp className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">
+                LendX
+              </span>
             </Link>
           </div>
 
@@ -37,10 +41,10 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                     location.pathname === item.href
-                      ? 'bg-primary-100 text-primary-700'
-                      : 'text-gray-600 hover:text-primary-600 hover:bg-gray-50'
+                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-soft'
+                      : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50 hover:shadow-soft'
                   }`}
                 >
                   {item.name}

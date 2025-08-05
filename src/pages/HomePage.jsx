@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Zap, Users, TrendingUp, CheckCircle, Lock } from 'lucide-react';
+import { Shield, Zap, Users, TrendingUp, CheckCircle, Lock, Star, Award } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
+import TrustBadge, { SecurityIndicator } from '../components/UI/TrustBadge';
 
 const HomePage = () => {
   const { isConnected } = useUser();
@@ -34,27 +35,51 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="gradient-bg text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              The Future of <span className="text-blue-200">Peer-to-Peer</span> Lending
+      <section className="gradient-bg text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+          <div className="text-center animate-fade-in-up">
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <TrustBadge type="verified" className="bg-white/20 text-white border-white/30" />
+              <TrustBadge type="security" className="bg-white/20 text-white border-white/30" />
+              <TrustBadge type="encrypted" className="bg-white/20 text-white border-white/30" />
+              <TrustBadge type="rated" className="bg-white/20 text-white border-white/30" />
+            </div>
+            
+            <h1 className="text-hero mb-6 animate-fade-in">
+              The Future of <span className="gradient-text bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">Peer-to-Peer</span> Lending
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed">
               Secure, transparent lending powered by SAS identity verification and Solana blockchain technology.
             </p>
+            
+            {/* Security Indicator */}
+            <div className="mb-8">
+              <SecurityIndicator level="high" className="bg-white/20 text-white border-white/30" />
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {isConnected ? (
                 <>
-                  <Link to="/borrow" className="btn-primary bg-white text-primary-600 hover:bg-blue-50">
+                  <Link to="/borrow" className="btn-primary bg-white text-primary-600 hover:bg-blue-50 transform hover:scale-105 transition-all duration-200">
+                    <Users className="w-5 h-5 mr-2" />
                     Start Borrowing
                   </Link>
-                  <Link to="/lend" className="btn-secondary bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600">
+                  <Link to="/lend" className="btn-outline border-white text-white hover:bg-white hover:text-primary-600 transform hover:scale-105 transition-all duration-200">
+                    <TrendingUp className="w-5 h-5 mr-2" />
                     Start Lending
                   </Link>
                 </>
               ) : (
-                <p className="text-blue-100 text-lg">Connect your wallet to get started</p>
+                <div className="text-center">
+                  <p className="text-blue-100 text-lg mb-4">Connect your wallet to get started</p>
+                  <div className="flex justify-center">
+                    <div className="animate-bounce-gentle">
+                      <Shield className="w-8 h-8 text-blue-200" />
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -76,14 +101,19 @@ const HomePage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white p-8 rounded-xl card-shadow">
-                <feature.icon className="h-12 w-12 text-primary-600 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <div key={index} className="bg-white p-8 rounded-xl card-shadow card-hover animate-fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
+                <div className="bg-gradient-to-br from-primary-500 to-primary-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6 shadow-soft">
+                  <feature.icon className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-card-title text-gray-900 mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 leading-relaxed">
                   {feature.description}
                 </p>
+                <div className="mt-4">
+                  <TrustBadge type="verified" text="Verified Feature" />
+                </div>
               </div>
             ))}
           </div>
@@ -93,13 +123,22 @@ const HomePage = () => {
       {/* Stats Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-section-title text-gray-900 mb-4">Platform Performance</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Trusted by thousands of users worldwide with industry-leading performance metrics
+            </p>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2">
-                  {stat.value}
+              <div key={index} className="text-center group">
+                <div className="bg-gradient-to-br from-primary-50 to-primary-100 rounded-xl p-6 mb-4 group-hover:shadow-medium transition-all duration-300">
+                  <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {stat.value}
+                  </div>
+                  <div className="text-gray-600 font-medium">{stat.label}</div>
                 </div>
-                <div className="text-gray-600">{stat.label}</div>
+                {index === 2 && <TrustBadge type="rated" text="Industry Leading" />}
               </div>
             ))}
           </div>
